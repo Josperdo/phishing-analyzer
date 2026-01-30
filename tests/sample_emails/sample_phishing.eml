@@ -1,0 +1,19 @@
+From: PayPal Security <no-reply@paypal-verify.tk>
+To: victim@example.com
+Subject: URGENT: Verify Your Account Now!
+Date: Mon, 30 Jan 2026 10:30:00 +0000
+Content-Type: text/plain; charset=utf-8
+
+Dear Valued Customer,
+
+We have detected unusual activity on your PayPal account. Your account will be
+suspended within 24 hours unless you verify your identity immediately.
+
+Click here to verify now: http://192.168.1.100/paypal/verify?id=12345
+
+If you do not act now, you will lose access to your funds.
+
+This is an automated message. Do not reply.
+
+Regards,
+PayPal Security Team
