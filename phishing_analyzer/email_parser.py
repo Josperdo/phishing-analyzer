@@ -18,6 +18,7 @@ class EmailData:
     Using a dataclass makes it easy to access email components
     and pass them between functions.
     """
+
     subject: str
     sender: str
     recipient: str

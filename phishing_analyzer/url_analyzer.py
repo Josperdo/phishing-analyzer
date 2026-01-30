@@ -15,6 +15,7 @@ from .config import Config, SUSPICIOUS_INDICATORS
 @dataclass
 class URLAnalysis:
     """Results of analyzing a single URL."""
+
     url: str
     is_suspicious: bool
     suspicion_score: int

@@ -33,17 +33,30 @@ class Config:
 # Suspicious patterns to detect (before API calls)
 SUSPICIOUS_INDICATORS = {
     "urgent_words": [
-        "urgent", "immediate action", "verify your account",
-        "suspended", "unusual activity", "confirm your identity",
-        "limited time", "act now", "click here immediately"
+        "urgent",
+        "immediate action",
+        "verify your account",
+        "suspended",
+        "unusual activity",
+        "confirm your identity",
+        "limited time",
+        "act now",
+        "click here immediately",
     ],
     "suspicious_senders": [
         # Common spoofed domains - add more as you learn about phishing patterns
-        "paypal-secure", "amazon-verify", "bank-alert"
+        "paypal-secure",
+        "amazon-verify",
+        "bank-alert",
     ],
     "suspicious_tlds": [
-        ".tk", ".ml", ".ga", ".cf", ".gq",  # Free TLDs often used in phishing
-        ".xyz", ".top"
+        ".tk",
+        ".ml",
+        ".ga",
+        ".cf",
+        ".gq",  # Free TLDs often used in phishing
+        ".xyz",
+        ".top",
     ],
     # TODO: Add more indicator categories:
     # - Mismatched display names vs email addresses

@@ -23,13 +23,10 @@ Examples:
   %(prog)s suspicious_email.eml
   %(prog)s email.eml --format json --output report.json
   %(prog)s email.eml --verbose
-        """
+        """,
     )
 
-    parser.add_argument(
-        "email_file",
-        help="Path to .eml file to analyze"
-    )
+    parser.add_argument("email_file", help="Path to .eml file to analyze")
 
     # TODO: Add arguments: --format, --output, --verbose, --no-api
 
