@@ -36,7 +36,7 @@ pytest tests/
 
 ## TODO
 
-- [ ] Email parser implementation
+- [x] Email parser implementation
 - [ ] URL pattern detection
 - [ ] Report generation
 - [ ] CLI integration
