@@ -43,3 +43,6 @@ htmlcov/
 reports/
 *.eml.analysis.txt
 *.eml.analysis.json
+
+# Admin
+Claude.md
