@@ -36,6 +36,10 @@ SUSPICIOUS_INDICATORS = {
         "act now",
         "click here immediately",
     ],
+    "suspicious_domain_keywords": [
+    "verify", "secure", "login", "account", "update",
+    "confirm", "suspend", "alert", "bank", "paypal",
+    ],
     "suspicious_senders": [
         "paypal-secure",
         "amazon-verify",

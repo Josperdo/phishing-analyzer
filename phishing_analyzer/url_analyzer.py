@@ -29,17 +29,45 @@ class URLAnalyzer:
 
     def analyze_url(self, url: str) -> URLAnalysis:
         # Analyze a single URL for suspicious patterns
-        pass
+        score , reasons = self._check_suspicious_patterns(url)
+        return URLAnalysis(
+            url=url,
+            is_suspicious=score >= Config.MIN_SUSPICIOUS_SCORE,
+            suspicion_score=score,
+            reasons=reasons
+        )
 
     def _check_suspicious_patterns(self, url: str) -> tuple[int, List[str]]:
         # Check URL against known suspicious patterns.
-            # Patterns to check:
-            # - Suspicious TLDs (.tk, .ml, etc.)
-            # - IP address instead of domain
-            # - Suspicious keywords in domain
-            # - Excessive subdomains
-            # - URL shorteners
-        pass
+        score = 0
+        reasons = []
+        parsed = urlparse(url)
+
+        # Suspicious TLDs check
+        for tld in SUSPICIOUS_INDICATORS["suspicious_tlds"]:
+            if parsed.netloc.endswith(tld):
+                score += 2
+                reasons.append(f"Suspicious TLD: {tld}")
+                break
+
+        # IP address check
+        if re.match(r'^\d+\.\d+\.\d+\.\d+', parsed.netloc):
+            score += 3
+            reasons.append(f"IP address used instead of domain: {parsed.netloc}")
+
+        # Suspicious keywords in domain
+        suspicious_keywords = SUSPICIOUS_INDICATORS["suspicious_domain_keywords"]
+        for keyword in suspicious_keywords:
+            if keyword in parsed.netloc.lower():
+                score += 1
+                reasons.append(f"Suspicious keyword in domain: {keyword}")
+
+        # Http vs Https check
+        if parsed.scheme == "http":
+            score += 1
+            reasons.append("Uses Http instead of Https")
+
+        return score, reasons
 
     def _check_virustotal(self, url: str) -> Optional[Dict]:
         # Check URL against VirusTotal API
@@ -49,7 +77,7 @@ class URLAnalyzer:
 
     def analyze_multiple(self, urls: List[str]) -> List[URLAnalysis]:
         # Analyze multiple URLs
-        pass
+        return [self.analyze_url(url) for url in urls]
 
 
 if __name__ == "__main__":
