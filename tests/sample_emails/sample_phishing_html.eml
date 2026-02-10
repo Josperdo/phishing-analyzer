@@ -1,0 +1,39 @@
+From: Microsoft Support <security@microsoft-account-verify.xyz>
+To: user@example.com
+Subject: Action Required: Unusual Sign-In Activity
+Date: Tue, 04 Feb 2026 14:22:00 +0000
+MIME-Version: 1.0
+Content-Type: multipart/alternative; boundary="boundary123"
+
+--boundary123
+Content-Type: text/plain; charset=utf-8
+
+Your Microsoft account was accessed from an unrecognized device.
+
+Location: Moscow, Russia
+Device: Unknown
+
+If this wasn't you, secure your account immediately:
+http://microsoft-secure-login.tk/verify
+
+--boundary123
+Content-Type: text/html; charset=utf-8
+
+<html>
+<body>
+<div style="font-family: Arial; max-width: 600px; margin: 0 auto;">
+<img src="http://microsoft-secure-login.tk/logo.png" alt="Microsoft">
+<h2>Unusual Sign-In Activity</h2>
+<p>Your Microsoft account was accessed from an unrecognized device.</p>
+<table>
+<tr><td>Location:</td><td>Moscow, Russia</td></tr>
+<tr><td>Device:</td><td>Unknown</td></tr>
+</table>
+<p>If this wasn't you, secure your account immediately:</p>
+<a href="http://microsoft-secure-login.tk/verify" style="background: #0078d4; color: white; padding: 10px 20px; text-decoration: none;">Secure My Account</a>
+<p style="font-size: 11px; color: #666;">Microsoft Corporation, One Microsoft Way, Redmond, WA 98052</p>
+</div>
+</body>
+</html>
+
+--boundary123--

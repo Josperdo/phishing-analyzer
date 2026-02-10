@@ -1,0 +1,28 @@
+From: HR Department <hr@company-benefits.ml>
+To: employee@example.com
+Subject: Updated Benefits Package - Please Review
+Date: Wed, 05 Feb 2026 08:00:00 +0000
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="attachment_boundary"
+
+--attachment_boundary
+Content-Type: text/plain; charset=utf-8
+
+Hi,
+
+Please find attached the updated benefits package for 2026.
+Review and sign the document by end of week.
+
+Download link if attachment doesn't work: https://company-benefits.ml/download/benefits.exe
+
+Thanks,
+Human Resources
+
+--attachment_boundary
+Content-Type: application/pdf; name="Benefits_2026.pdf.exe"
+Content-Disposition: attachment; filename="Benefits_2026.pdf.exe"
+Content-Transfer-Encoding: base64
+
+VGhpcyBpcyBhIGZha2UgYXR0YWNobWVudCBmb3IgdGVzdGluZyBwdXJwb3Nlcw==
+
+--attachment_boundary--
