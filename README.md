@@ -1,6 +1,6 @@
 # Phishing Email Analyzer
 
-WIP - Email analysis tool for extracting and analyzing indicators of compromise from email files.
+Email analysis tool for extracting and analyzing indicators of compromise from .eml files.
 
 ## Setup
 
@@ -20,24 +20,23 @@ Copy `.env.example` to `.env` and add API keys if needed.
 
 ## Usage
 
-**Parse a single email (currently working):**
-```bash
-python -m phishing_analyzer.email_parser
-```
-
-**CLI tool (coming soon):**
 ```bash
 python main.py <email_file.eml>
+```
+
+Example:
+```bash
+python main.py tests/sample_emails/sample_phishing.eml
 ```
 
 ## Structure
 
 ```
 phishing_analyzer/
-├── email_parser.py      # Email parsing (implemented)
-├── url_analyzer.py      # URL analysis (stub)
-├── report_generator.py  # Report generation (stub)
-└── config.py            # Config
+├── email_parser.py      # Email parsing
+├── url_analyzer.py      # URL pattern detection
+├── report_generator.py  # Report generation
+└── config.py            # Config and suspicious indicators
 ```
 
 ## Testing
@@ -49,7 +48,7 @@ pytest tests/ -v
 ## TODO
 
 - [x] Email parser implementation
-- [ ] URL pattern detection
-- [ ] Report generation
-- [ ] CLI integration
+- [x] URL pattern detection
+- [x] Report generation
+- [x] CLI integration
 - [ ] VirusTotal API integration

@@ -16,8 +16,35 @@ class ReportGenerator:
         self.timestamp = datetime.now().isoformat()
 
     def generate_text_report(self) -> str:
+        risk_level = self._calculate_risk_level()
+        
         # Generate a human-readable text report
-        pass
+        report = ""
+        report += "=" * 50 + "\n"
+        report += " PHISHING EMAIL ANALYSIS REPORT\n"
+        report += f"Generated: {self.timestamp}\n"
+        report += "=" * 50 + "\n\n"
+        
+        # email summary
+        report += "EMAIL SUMMARY:\n"
+        report += f"From: {self.email_data.sender}\n"
+        report += f"To: {self.email_data.recipient}\n"
+        report += f"Subject: {self.email_data.subject}\n"
+        report += f"Date: {self.email_data.date}\n"
+        
+        # URL analysis
+        report += f"URLs Found: {len(self.url_analyses)}\n"
+        for analysis in self.url_analyses:
+            status = "SUSPICIOUS" if analysis.is_suspicious else "CLEAN"    
+            report += f"[{status}] {analysis.url} (Score: {analysis.suspicion_score})\n"
+            for reason in analysis.reasons:
+                report += f"  - {reason}\n"
+                
+        # Risk level
+        report += f"\nOVERALL RISK: {risk_level}\n"
+        report += "=" * 50 + "\n"
+        
+        return report
 
     def generate_json_report(self) -> str:
         # Generate a JSON report for machine processing
@@ -25,7 +52,21 @@ class ReportGenerator:
 
     def _calculate_risk_level(self) -> str:
         # Calculate overall risk level based on all indicators. Returns: "HIGH", "MEDIUM", or "LOW"
-        pass
+        max_score = 0
+        suspicious_count = 0
+        
+        for analysis in self.url_analyses:
+            if analysis.suspicion_score > max_score:
+                max_score = analysis.suspicion_score
+            if analysis.is_suspicious:
+                suspicious_count += 1
+        
+        if max_score >= 5 or suspicious_count > 3:
+            return "HIGH"
+        elif max_score >= 3 or suspicious_count > 1:
+            return "MEDIUM"
+        else:
+            return "LOW"
 
     def _generate_recommendations(self) -> List[str]:
         # Generate actionable recommendations based on analysis
