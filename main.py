@@ -13,6 +13,7 @@ def main():
         description="Analyze emails for phishing indicators",
     )
     parser.add_argument("email_file", help="Path to .eml file to analyze")
+    parser.add_argument("--format", choices=["text", "json"], default="text", help="Output format for the report")
     args = parser.parse_args()
     
     # 1. Parse email(s)
@@ -25,7 +26,11 @@ def main():
     
     # 3. Generate report
     reporter = ReportGenerator(email_data, url_results)
-    print(reporter.generate_text_report())
+    if args.format == "json":
+        print(reporter.generate_json_report())
+    else:
+        print(reporter.generate_text_report())
+    
 
 # Run the main function when executed as a script
 if __name__ == "__main__":

@@ -5,6 +5,7 @@ from datetime import datetime
 from typing import List
 from .email_parser import EmailData
 from .url_analyzer import URLAnalysis
+from dataclasses import asdict
 
 
 class ReportGenerator:
@@ -48,7 +49,25 @@ class ReportGenerator:
 
     def generate_json_report(self) -> str:
         # Generate a JSON report for machine processing
-        pass
+        risk_level = self._calculate_risk_level()
+    
+        report = {
+            "timestamp": self.timestamp,
+            "email": {
+                "subject": self.email_data.subject,
+                "sender": self.email_data.sender,
+                "recipient": self.email_data.recipient,
+                "date": self.email_data.date,
+                "attachments": self.email_data.attachments,
+            },
+            "url_analyses": {
+                "total_urls": len(self.url_analyses),
+                "results": [asdict(a) for a in self.url_analyses],
+            },
+            "risk_level": risk_level,
+        }
+    
+        return json.dumps(report, indent=2)
 
     def _calculate_risk_level(self) -> str:
         # Calculate overall risk level based on all indicators. Returns: "HIGH", "MEDIUM", or "LOW"
