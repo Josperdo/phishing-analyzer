@@ -91,4 +91,4 @@ pytest tests/ -v
 - [ ] VirusTotal API integration
 - [ ] Batch folder scanning
 - [x] JSON report export
-- [ ] Sender domain/Reply-To mismatch detection
+- [x] Sender domain/Reply-To mismatch detection

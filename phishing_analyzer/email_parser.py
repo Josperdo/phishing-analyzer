@@ -53,6 +53,7 @@ class EmailParser:
         urls = self._extract_urls(body_text, body_html)
         attachments = self._extract_attachments()
 
+        # Output the extracted data in a structured format
         return EmailData(
             subject=headers['subject'],
             sender=headers['from'],
