@@ -23,7 +23,8 @@ class EmailData:
     headers: Dict[str, str]
     urls: List[str]
     attachments: List[Dict[str, str]]
-
+    reply_to: Optional[str] = None
+    reply_to_mismatch: Optional[bool] = None
 
 class EmailParser:
     # Parses .eml files and extracts relevant information
@@ -61,7 +62,9 @@ class EmailParser:
             body_html=body_html,
             headers=headers,
             urls=urls,
-            attachments=attachments
+            attachments=attachments,
+            reply_to=headers['reply_to'],
+            reply_to_mismatch=self._check_reply_to_mismatch(headers),
         )
 
     def _extract_headers(self) -> Dict[str, str]:
@@ -71,6 +74,7 @@ class EmailParser:
             'from': self.message['From'] or "",
             'to': self.message['To'] or "",
             'date': self.message['Date'] or "",
+            'reply_to': self.message['Reply-To'] or "",
         }
 
     def _extract_body(self) -> tuple[str, Optional[str]]:
@@ -115,7 +119,6 @@ class EmailParser:
 
     def _extract_attachments(self) -> List[Dict[str, str]]:
         # Extract attachment metadata (filename, content_type, size)
-        # Don't save attachments - just collect info about them
         attachments = []
         for part in self.message.walk():
             if part.get_content_disposition() == 'attachment':
@@ -127,7 +130,20 @@ class EmailParser:
                 })
         return attachments
 
-
+    def _check_reply_to_mismatch(self, headers: Dict[str, str]) -> bool:
+        # Check if Reply-To header is present and does not match the From address
+        sender = headers['from']
+        reply_to = headers['reply_to']
+        
+        if not reply_to:
+            return False  # No Reply-To header, so no mismatch
+        
+        # Extract domain from email address (handles "Name <email@domain>" format)
+        sender_domain = sender.split('@')[-1].strip('>').lower()
+        reply_domain = reply_to.split('@')[-1].strip('>').lower()
+        
+        return sender_domain != reply_domain
+        
 if __name__ == "__main__":
     parser = EmailParser("tests/sample_emails/sample_phishing.eml")
     result = parser.parse()

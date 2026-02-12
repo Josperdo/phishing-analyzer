@@ -32,6 +32,10 @@ class ReportGenerator:
         report += f"To: {self.email_data.recipient}\n"
         report += f"Subject: {self.email_data.subject}\n"
         report += f"Date: {self.email_data.date}\n"
+        report += f"Reply-To: {self.email_data.reply_to}\n"
+        
+        if self.email_data.reply_to_mismatch:
+            report += "WARNING: Reply-To mismatch detected!\n"
         
         # URL analysis
         report += f"URLs Found: {len(self.url_analyses)}\n"
@@ -59,6 +63,8 @@ class ReportGenerator:
                 "recipient": self.email_data.recipient,
                 "date": self.email_data.date,
                 "attachments": self.email_data.attachments,
+                "reply_to": self.email_data.reply_to,
+                "reply_to_mismatch": self.email_data.reply_to_mismatch,
             },
             "url_analyses": {
                 "total_urls": len(self.url_analyses),
