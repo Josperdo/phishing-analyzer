@@ -30,11 +30,19 @@ class URLAnalyzer:
     def analyze_url(self, url: str) -> URLAnalysis:
         # Analyze a single URL for suspicious patterns
         score , reasons = self._check_suspicious_patterns(url)
+        
+        # Check if VirusTotal is enabled
+        vt_result = self._check_virustotal(url)
+        if vt_result and vt_result["malicious"] > 0:
+            score += 5
+            reasons.append(f"VirusTotal: {vt_result['malicious']} engines flagged as malicious")
+        
         return URLAnalysis(
             url=url,
             is_suspicious=score >= Config.MIN_SUSPICIOUS_SCORE,
             suspicion_score=score,
-            reasons=reasons
+            reasons=reasons,
+            virustotal_result=vt_result
         )
 
     def _check_suspicious_patterns(self, url: str) -> tuple[int, List[str]]:
@@ -73,7 +81,49 @@ class URLAnalyzer:
         # Check URL against VirusTotal API
         if not self.vt_enabled:
             return None
-        pass
+        
+        # Check cache first to avoid duplicate API calls
+        if url in self.cache:
+            return self.cache[url]
+        
+        headers = {"x-apikey": Config.VIRUSTOTAL_API_KEY}
+        
+        try:
+            # Submit URL for analysis
+            response = requests.post(
+                Config.VIRUSTOTAL_URL,
+                headers=headers,
+                data={"url": url},
+            )
+            response.raise_for_status()
+            analysis_id = response.json()["data"]["id"]
+            
+            # Rate limit handling (Free tier allows 4 requests/minute)
+            time.sleep(15)
+            
+            # Get analysis results
+            result = requests.get(
+                f"https://www.virustotal.com/api/v3/analyses/{analysis_id}",
+                headers=headers,
+            )
+            result.raise_for_status()
+            stats = result.json()["data"]["attributes"]["stats"]
+            
+            vt_result = {
+                "malicious": stats.get("malicious", 0),
+                "suspicious": stats.get("suspicious", 0),
+                "harmless": stats.get("harmless", 0),
+                "undetected": stats.get("undetected", 0),
+            }
+            
+            # Cache the result
+            self.cache[url] = vt_result
+            return vt_result
+    
+        except requests.RequestException as e:
+            print(f"VirusTotal API error: {e}")
+            return None
+    
 
     def analyze_multiple(self, urls: List[str]) -> List[URLAnalysis]:
         # Analyze multiple URLs
