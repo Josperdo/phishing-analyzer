@@ -89,6 +89,6 @@ pytest tests/ -v
 - [x] Report generation
 - [x] CLI integration
 - [ ] VirusTotal API integration
-- [ ] Batch folder scanning
+- [x] Batch folder scanning
 - [x] JSON report export
 - [x] Sender domain/Reply-To mismatch detection
