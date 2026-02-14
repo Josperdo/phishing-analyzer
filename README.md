@@ -1,4 +1,4 @@
-# Phishing Email Analyzer
+# Reelphish
 
 A command-line tool that parses `.eml` email files and analyzes them for phishing indicators. Extracts headers, body content, URLs, and attachment metadata, then scores each URL against known suspicious patterns and VirusTotal's threat intelligence to produce a risk assessment report.
 
