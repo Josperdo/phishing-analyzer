@@ -1,4 +1,4 @@
-# Main CLI entry point for the Phishing Email Analyzer
+# Main CLI entry point for Reelphish
 
 import argparse
 import sys
