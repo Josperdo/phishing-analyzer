@@ -4,9 +4,14 @@ import argparse
 import sys
 from pathlib import Path
 
+from rich.console import Console
+from rich.rule import Rule
+
 from phishing_analyzer.email_parser import EmailParser
 from phishing_analyzer.url_analyzer import URLAnalyzer
 from phishing_analyzer.report_generator import ReportGenerator
+
+console = Console()
 
 def main():
     parser = argparse.ArgumentParser(
@@ -21,7 +26,8 @@ def main():
     if args.directory:
         eml_files = list(Path(args.directory).glob("*.eml"))
         for eml_file in eml_files:
-            # Run the full pipeline for each file
+            if args.format != "json":
+                console.print(Rule(f"[bold dim]{eml_file.name}[/bold dim]", style="dim"))
             email_parser = EmailParser(str(eml_file))
             email_data = email_parser.parse()
             url_analyzer = URLAnalyzer()
@@ -30,7 +36,7 @@ def main():
             if args.format == "json":
                 print(reporter.generate_json_report())
             else:
-                print(reporter.generate_text_report())
+                reporter.print_rich_report()
     # Single file mode
     else:
         email_parser = EmailParser(args.email_file)
@@ -41,7 +47,7 @@ def main():
         if args.format == "json":
             print(reporter.generate_json_report())
         else:
-            print(reporter.generate_text_report())
+            reporter.print_rich_report()
     
 
 # Run the main function when executed as a script

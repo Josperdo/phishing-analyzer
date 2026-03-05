@@ -73,34 +73,44 @@ Date: Tue, 04 Feb 2026 14:22:00 +0000
 
 The HTML part renders a convincing branded notification — Microsoft logo, a sign-in alert table, and a styled "Secure My Account" CTA button. The sender domain (`microsoft-account-verify.xyz`) passes a casual visual scan. Every URL in the email, including the logo image request, resolves to the same attacker-controlled host.
 
-**Text report:**
+**Terminal report** (color-coded in terminal — red for suspicious/high risk, green for clean/low risk):
 
 ```
-==================================================
- PHISHING EMAIL ANALYSIS REPORT
-Generated: 2026-02-22T09:14:37.882041
-==================================================
++-----------------------------------------------------------------------------+
+|                       PHISHING EMAIL ANALYSIS REPORT                        |
+|                    Generated: 2026-02-22T09:14:37.882041                    |
++-----------------------------------------------------------------------------+
 
-EMAIL SUMMARY:
-From: Microsoft Support <security@microsoft-account-verify.xyz>
-To: user@example.com
-Subject: Action Required: Unusual Sign-In Activity
-Date: Tue, 04 Feb 2026 14:22:00 +0000
-Reply-To:
-URLs Found: 2
-[SUSPICIOUS] http://microsoft-secure-login.tk/verify (Score: 5)
-  - Suspicious TLD: .tk
-  - Suspicious keyword in domain: secure
-  - Suspicious keyword in domain: login
-  - Uses Http instead of Https
-[SUSPICIOUS] http://microsoft-secure-login.tk/logo.png (Score: 5)
-  - Suspicious TLD: .tk
-  - Suspicious keyword in domain: secure
-  - Suspicious keyword in domain: login
-  - Uses Http instead of Https
+-------------------------------- EMAIL HEADERS --------------------------------
++---------------------------------------------------------------------+
+| From    | Microsoft Support <security@microsoft-account-verify.xyz> |
+| To      | user@example.com                                          |
+| Subject | Action Required: Unusual Sign-In Activity                 |
+| Date    | Tue, 04 Feb 2026 14:22:00 +0000                           |
++---------------------------------------------------------------------+
 
-OVERALL RISK: HIGH
-==================================================
+--------------------------- URL ANALYSIS  (2 found) ---------------------------
++--------------------------------------------------------------------+
+| URL                                       |  Score  |    Status    |
+|-------------------------------------------+---------+--------------|
+| http://microsoft-secure-login.tk/verify   |    5    |  SUSPICIOUS  |
+| http://microsoft-secure-login.tk/logo.png |    5    |  SUSPICIOUS  |
++--------------------------------------------------------------------+
+  http://microsoft-secure-login.tk/verify
+    • Suspicious TLD: .tk
+    • Suspicious keyword in domain: secure
+    • Suspicious keyword in domain: login
+    • Uses Http instead of Https
+
+  http://microsoft-secure-login.tk/logo.png
+    • Suspicious TLD: .tk
+    • Suspicious keyword in domain: secure
+    • Suspicious keyword in domain: login
+    • Uses Http instead of Https
+
++-----------------------------------------------------------------------------+
+|                             OVERALL RISK: HIGH                              |
++-----------------------------------------------------------------------------+
 ```
 
 Both URLs hit the same infrastructure. The logo request is worth noting — attackers frequently use tracking pixels and remote image loads on their phishing domains, meaning any email open sends a beacon and confirms the address is live.
@@ -164,7 +174,7 @@ Reply-To: refund-claims@amaz0n-support.ru
 ```
 
 ```
-WARNING: Reply-To mismatch detected!
+⚠  Reply-To mismatch detected — possible sender spoofing
 ```
 
 This pattern appears in BEC and refund scams where the attacker impersonates a trusted brand in the `From` field but needs victim replies to reach infrastructure they control. The `From` domain passes a visual check; the `Reply-To` exposes the operation.

@@ -7,7 +7,11 @@ from urllib.parse import urlparse
 from typing import Dict, List, Optional
 from dataclasses import dataclass
 
+from rich.console import Console
+
 from .config import Config, SUSPICIOUS_INDICATORS
+
+_console = Console()
 
 
 @dataclass
@@ -99,13 +103,14 @@ class URLAnalyzer:
             analysis_id = response.json()["data"]["id"]
             
             # Rate limit handling (Free tier allows 4 requests/minute)
-            time.sleep(15)
-            
-            # Get analysis results
-            result = requests.get(
-                f"https://www.virustotal.com/api/v3/analyses/{analysis_id}",
-                headers=headers,
-            )
+            with _console.status("[bold cyan]Waiting for VirusTotal analysis...[/bold cyan]", spinner="dots"):
+                time.sleep(15)
+
+                # Get analysis results
+                result = requests.get(
+                    f"https://www.virustotal.com/api/v3/analyses/{analysis_id}",
+                    headers=headers,
+                )
             result.raise_for_status()
             stats = result.json()["data"]["attributes"]["stats"]
             
